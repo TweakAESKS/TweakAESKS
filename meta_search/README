@@ -1,0 +1,18 @@
+This folder contains all the code used for the (Tweaked) Simulated Annealing algorithm.
+
+To use it, you need to obtain both Minizinc (http://www.minizinc.org/index.html) and Gecode (http://www.gecode.org/).
+
+Then simply using
+make search
+./search
+will launch the algorithm (expect about ~30min of precomputation before the actual start)
+
+The search.cpp file can be edited (at the beginning of the main) to changes the parameters as follow :
+
+- Pk is the initial permutation to use to start the algorithm. 
+- Ps is the permutation to use for the ShiftRows operation
+- T is the initial temperature (T0) for the algorithm
+- beta is a parameter used in the coolign schedule function alpha
+- bound_active is the targeted length
+- activeK is a parameter for the quicksearch algorithm (function NoPathsNoEq). It controls the maximal number of active bytes in the key that the NoPathsNoEq function will use to (quickly) search for a relatively short (and valid) path.
+- n_rounds is the number of rounds to consider

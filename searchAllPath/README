@@ -1,0 +1,28 @@
+This is the model used to search for all path of a given length for a given number of rounds, using a permutation Pk as key-schedule and Ps as the ShiftRows.
+
+To use it, you need to obtain both Minizinc (http://www.minizinc.org/index.html) and Gecode (http://www.gecode.org/).
+Note that using another solver (such that Chuffed) is also possible thanks to Minizinc.
+
+Once done, you need to edit the dataPerm_MCeq_allPath.dzn file as the following :
+- Pk is the permutation used as key-schedule
+- Ps is the pemrutation used instead of the ShiftRows operation
+- n is the number of rounds
+- objective_bound is the targeted number of Sboxes
+
+For exemple, the provided dataPerm_MCeq_allPath.dzn file is set to search all paths of length 20 over 6 rounds, using Pk as key-schedule and the original ShiftRows
+
+Then you need to run
+mzn2fzn modelPerm_MCeq_allPath.mzn dataPerm_MCeq_allPath.dzn
+fzn-gecode -a modelPerm_MCeq_allPath.fzn > allPath.txt
+
+This will give you a file allPath.txt which can then be used to search for an instantiation using the program in the "search_instanciate" folder.
+
+Note that the "fzn-gecode -a modelPerm_MCeq_allPath.fzn > allPath.txt" command will give an output that is not easily human readable (but is required for the instantiation algorithm).
+To get a pretty (at least readable) printing, you can use
+fzn-gecode -a modelPerm_MCeq_allPath.fzn | solns2out modelPerm_MCeq_allPath.ozn
+This will print each path formatted as :
+DeltaY[r]   DeltaK[r]   DeltaX[r]   DeltaSR[r]
+Where DeltaY[r]=MC(DeltaSR[r-1]) (and deltaY[0] displayed as all zeros because it is free)
+      DeltaK[r] is the round key of round r
+      DeltaX[r] is the result of ARK on DeltaY[r] and DeltaK[r]
+      DeltaSR[r]=SR(DeltaX[r]) 

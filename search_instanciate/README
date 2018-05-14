@@ -1,0 +1,33 @@
+This is the Choco program for the automatic search of related key differential
+characteristics instanciantion on AES using a permutation as the key-schedule.
+
+Credits to Gerault et al. from which the original program comes from ([11] Gérault, D., Lafourcade, P., Minier, M., Solnon, C, Revisiting aes related-key
+differential attacks with constraint programming).
+
+This one has been slightly tweaked to use a permutation as the key-schedule, as well as specifying a different permutation for the ShiftRows operation.
+
+The instructions to use it are the following (from Gerault et al. original program) :
+
+To run it, you need to obtain Choco (choco-solver.org), and more specifically the file
+choco-solver-X.Y.Z-with-dependencies.jar. This program was tested and is functionnal using the version
+3.3.1 of Choco (choco-solver-3.3.1-with-dependencies.jar).
+
+- Extract the archive and go to the corresponding folder
+- Modify the line
+	$(JAVAC) -sourcepath ./ -cp choco-solver-3.3.1-with-dependencies.jar $<
+in the makefile for it to fit your version of Choco, i.e.
+	$(JAVAC) -sourcepath ./ -cp YOUR_CHOCO_DIR/choco-solver-YOUR.CHOCO.VERSION-with-dependencies.jar $<
+- Change the permutation Ps and Pk to used in CryptoMain.java
+- In a terminal, run "make".
+- Then, type
+  	java -cp .:YOUR_CHOCO_DIR/choco-solver-YOUR.CHOCO.VERSION-with-dependencies.jar CryptoMain YOUR_INPUT_FILE YOUR_OUTPUT_FILE NUMBER_OF_ROUNDS
+	
+where:
+	- YOUR_INPUT_FILE is a file containing all the truncated differential characteristics to be examined. This is the file outputted by the modelPerm_MCeq_allPath.mzn program, available in the "searchAllPath" folder, when used as (i.e. without any nice display)
+	 		  mzn2fzn modelPerm_MCeq_allPath.mzn dataPerm_MCeq_allPath.dzn
+	  		  fzn-gecode -a modelPerm_MCeq_allPath.fzn > allPath_origSR_Pk_6r_20SB.txt
+
+	For exemple, the file allPath_origSR_Pk_6r_20SB.txt, which contains all path of 20 Sboxes over 6 rounds, using Pk as the key-schedule and the original ShiftRows.
+	- YOUR_OUTPUT_FILE is the file where you want to obtain the output
+	- NUMBER_OF_ROUNDS is the value of n given in step 1.
+
