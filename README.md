@@ -1,6 +1,6 @@
 # TweakAESKS
 
-This repo contains the implementations used for the paper "Tweaking the AES Key-Schedule for Better Truncated Differential Bounds"
+This repo contains the implementations used for the paper "Tweaking the AES Key-Schedule for Better Truncated Differential Bounds" by Patrick Derbez, Pierre-Alain Fouque, Jérémy Jean and Baptiste Lambin, accepted at SAC 2018 and available [here](https://eprint.iacr.org/2019/095).
 
 Required :
 - [Minizinc](http://www.minizinc.org/index.html)
